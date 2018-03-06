@@ -106,9 +106,12 @@ function editVid(id, params, callback) {
 
     // Video Length
     .getAttribute('.js-video-length', 'data-video-length').then(function(val) {
-      data.lengthSeconds = val * 1;
-      // data.lengthMinutes = val*1;
-      console.log(data.lengthSeconds);
+      console.log(val);
+      if(val * 1) {
+        data.lengthSeconds = val * 1;
+      } else {
+        data.length = val;
+      }
     })
 
     // Intensity
@@ -146,13 +149,25 @@ function editVid(id, params, callback) {
      * Epoch milliseconds to UTC string
      */
     .getAttribute('//*[@id="rmpPlayer"]', 'data-video-filepath').then(function(val) {
+      var epochMs = 0;
+      var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
       // var val = "https://dntgjk0do84uu.cloudfront.net/364438/e1a1813a9e1abe9866c0b74118081a58/preview/1520188436784.mp4_480_1520188447.m3u8"; // test string
       var regex = /https:\/\/.*\/.*\/(\d{13}).mp4_\d{3,4}_\d{10}.m3u8/; // Regex search string
-      var match = regex.exec(val);
-      var epochMs = match[1]; // Match regex group 1
+      var regex2 = /https:\/\/s3.amazonaws.com\/manyvids-data\/php_uploads\/preview_videos\/.*\/(\d{13})_preview.mp4/; // Regex search string
+
+      if (regex.test(val)) {
+        var match = regex.exec(val);
+        epochMs = match[1];
+      } else if (regex2.test(val)) {
+        var match = regex2.exec(val);
+        epochMs = match[1];
+      }
+
+      // var match = regex.exec(val);
+      // var epochMs = match[1]; // Match regex group 1
       // console.log(match, epochMs);
       // console.log("Converting to UTC String");
-      var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+      // var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
       d.setUTCMilliseconds(epochMs); // set the dat obj to the video creatiume time in epoch ms
       data.createdAt = d.toISOString(); // Convert to UTC timestamp
     })
