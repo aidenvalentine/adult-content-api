@@ -1,5 +1,6 @@
 /**
- * Login to ManyVids
+ * Login to ManyVids.
+ * Init a new webdriverio session.
  * @param  {webdriverio}   client   A webdriverio client
  * @param  {Function}      callback err, data
  * @return {Object}                 A webdriverio cookie containing the authenticated PHPSESSID
@@ -26,6 +27,9 @@ function auth(params, callback) {
 
 /**
  * Edit Vid - Details
+ * Sends a GET request to the server, using an authenticated webdriverio session, fetches the data, then ends the session.
+ * NOTE: It's super important to use .end() method to end the browser session. Because {@link auth | auth} calls init() to open a new browser session.
+ * IMPORTANT: If we don't run browser.end(), this app will fail when {@link getVid | getVid} or another method is called!
  * @param  {Integer}   id      A ManyVids Video ID
  * @param  {Object}   params   client, cookie
  * @param  {Function} callback [description]
@@ -184,6 +188,7 @@ function editVid(id, params, callback) {
 
     // Success Callback
     .next(function() {
+      params.client.end();
       console.log('Done!');
       console.log(JSON.stringify(data, null, 2));
       return callback(null, data);
