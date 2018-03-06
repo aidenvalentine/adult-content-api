@@ -186,7 +186,7 @@ function editVid(id, params, callback) {
     .next(function() {
       console.log('Done!');
       console.log(JSON.stringify(data, null, 2));
-      // return callback(null, data);
+      return callback(null, data);
     })
 
     // Global Error Callback
