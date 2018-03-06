@@ -145,6 +145,16 @@ function editVid(id, params, callback) {
         }
     })
 
+    // Trailer URL
+    .getAttribute('//*[@id="rmpPlayer"]', 'data-video-filepath').then(function(val) {
+      data.poster = val;
+    })
+
+    // Poster Img URL
+    .getAttribute('//*[@id="rmpPlayer"]', 'data-video-screenshot').then(function(val) {
+      data.trailer = val;
+    })
+
     /** CreatedAt Timestamp
      * Epoch milliseconds to UTC string
      */
