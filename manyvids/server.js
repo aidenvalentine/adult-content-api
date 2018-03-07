@@ -1,3 +1,4 @@
+const router = require('./routes');
 require('dotenv').config({
   path: '.env.fififoxx'
 });
@@ -8,6 +9,8 @@ var manyvidsRouter = express.Router();
 const client = require('./webdriverio/client.js').client;
 
 const app = express();
+//  Connect all our routes to our application
+app.use('/', router);
 
 app.set('json spaces', 2);
 
