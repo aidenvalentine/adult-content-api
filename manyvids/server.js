@@ -4,6 +4,7 @@ require('dotenv').config({
 const express = require('express');
 const mv = require('./manyvids.js');
 const middleware = require('./middleware/middleware.js');
+var manyvidsRouter = express.Router();
 const client = require('./webdriverio/client.js').client;
 
 const app = express();
@@ -22,44 +23,51 @@ const params = {
 };
 
 // route to trigger the capture
-app.get('/vids', function (req, res) {
+manyvidsRouter.get('/vids', function (req, res) {
   var id = req.params.id;
   console.log(`GET /vids - Mock Endpoint`); // Mock
   res.json({});
 });
 
 // route to trigger the capture
-app.get('/vids/:id', function (req, res) {
+manyvidsRouter.get('/vids/:id', function (req, res) {
   var id = req.params.id;
   console.log(`Requesting Clip ID: ${id}`);
 
-  mv.editVid(id, params, function(err, data) {
-    console.log(data);
-    res.json(data);
+  mv.login(params, function(err, data) {
+
+    mv.editVid(id, params, function(err, data) {
+      // client.close();
+      console.log(data);
+      res.json(data);
+    });
+
   });
 
 });
 
 // route to trigger the capture
-app.post('/vids/:id', function (req, res) {
+manyvidsRouter.post('/vids/:id', function (req, res) {
   var id = req.params.id;
   console.log(`POST /vids/${id} - Mock Endpoint`); // Mock
   res.json({});
 });
 
 // route to trigger the capture
-app.put('/vids/:id', function (req, res) {
+manyvidsRouter.put('/vids/:id', function (req, res) {
   var id = req.params.id;
   console.log(`PUT /vids/${id} - Mock Endpoint`); // Mock
   res.json({});
 });
 
 // route to trigger the capture
-app.delete('/vids/:id', function (req, res) {
+manyvidsRouter.delete('/vids/:id', function (req, res) {
   var id = req.params.id;
   console.log(`DELETE /vids/${id} - Mock Endpoint`); // Mock
   res.json({});
 });
+
+app.use('/manyvids', manyvidsRouter);
 
 app.listen(3000, function () {
   console.log('Express listening on port 3000');
