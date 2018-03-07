@@ -1,11 +1,8 @@
+/**
+ * Initialized a new WebDriverIO Client.
+ */
 const webdriverio = require('webdriverio');
-const options = {
-  desiredCapabilities: {
-    browserName: 'chrome'
-  },
-  host: process.env.HOST || "http://localhost",
-  port: process.env.PORT || 4444
-};
-var client = webdriverio.remote(options);
+const config = require('./config.js').config;
+var client = webdriverio.remote(config);
 
 module.exports = { client };
