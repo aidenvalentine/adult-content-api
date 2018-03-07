@@ -14,9 +14,6 @@ app.set('json spaces', 2);
 // Add CORS headers
 app.use(middleware.cors);
 
-client
-    .init();
-
 const params = {
   client: client,
   cookie: cookie
