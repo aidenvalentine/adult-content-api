@@ -275,169 +275,98 @@ function getClip(id, params, callback) {
 
 /**
  * Put Vid - Details
- * @param  {Integer}   id      A ManyVids Video ID
+ * @param  {Integer}  event    A ManyVids Video ID
  * @param  {Object}   params   client, cookie
  * @param  {Function} callback [description]
  * @return {Object}            An object containing details about a ManyVids video.
  */
-function putVid(id, data, params, callback) {
-  // var data = {};
-  // data.video = {};
-  // data.website = "MANYVIDS";
-  // data.categories = [];
-  console.log(id, data, params);
+function postClip(event, params, callback) {
+  var description = event.description;
+  var response = {};
+  console.log(event, params); // Debug
 
   params.client
+    // .init()
     .setCookie(params.cookie)
-    .url(`https://www.manyvids.com/Edit-vid/${id}/`)
+    .url('https://admin.clips4sale.com/clips/')
+    .waitForVisible('[name="ClipTitle"]', 3000)
+    .setValue('[name="ClipTitle"]', event.name +  map.get(event.flavor))
+    .execute(function(description) {
+      console.log(description);
+        // browser context - you may not access client or console
+        tinyMCE.activeEditor.setContent(description, {format: "raw"});
+    }, description)
+    .selectByValue('[name="ClipName"]', event.filename).catch(function(err) {
+      response.err = err;
+      response.msg = 'Error: Video file not found in uploads.';
+      params.client.end(); /** Ends browser session {@link editVid| read editVids docs} */
+      console.log(response);
+      return callback(err, response);
+    })
     .pause(2000)
+    // .selectByVisibleText('[name="ClipCat"]', event.category)
+    .selectByVisibleText('[name="ClipCat"]', event.category) // added to be compatible with the Type Category
+    .selectByVisibleText('#key1', event.relatedCategories[0])
+    .selectByVisibleText('#key2', event.relatedCategories[1])
+    .selectByVisibleText('#key3', event.relatedCategories[2])
+    .selectByVisibleText('#key4', event.relatedCategories[3])
+    .selectByVisibleText('#key5', event.relatedCategories[4])
+    .setValue('[name="keytype[0]"]', event.tags[0])
+    .setValue('[name="keytype[1]"]', event.tags[1])
+    .setValue('[name="keytype[2]"]', event.tags[2])
+    .setValue('[name="keytype[3]"]', event.tags[3])
+    .setValue('[name="keytype[4]"]', event.tags[4])
+    .setValue('[name="keytype[5]"]', event.tags[5])
+    .setValue('[name="keytype[6]"]', event.tags[6])
+    .setValue('[name="keytype[7]"]', event.tags[7])
+    .setValue('[name="keytype[8]"]', event.tags[8])
+    .setValue('[name="keytype[9]"]', event.tags[9])
+    .setValue('[name="keytype[10]"]', event.tags[10])
+    .setValue('[name="keytype[11]"]', event.tags[11])
+    .setValue('[name="keytype[12]"]', event.tags[12])
+    .setValue('[name="keytype[13]"]', event.tags[13])
+    .setValue('[name="keytype[14]"]', event.tags[14])
+    .setValue('[name="DisplayOrder"]', event.displayOrder || 0)
+    .selectByValue('[name="ClipImage"]', event.thumbnailFilename).catch(function(err) {
+      response.err = err;
+      response.msg = 'Error: Thumbnail not found in uploads.';
+      params.client.end(); /** Ends browser session {@link editVid| read editVids docs} */
+      console.log(response);
+      return callback(err, response);
+    })
+    .selectByValue('[name="clip_preview"]', event.trailerFilename).catch(function(err) {
+      response.err = err;
+      response.msg = 'Error: Trailer not found in uploads.';
+      params.client.end(); /** Ends browser session {@link editVid| read editVids docs} */
+      console.log(response);
+      return callback(err, response);
+    })
+    .selectByValue('[name="ClipPrice"]', event.price)
+    .selectByValue("[name='fut_month']", dateFormat(event.releaseDate, "mm"))
+    .selectByValue("[name='fut_day']", dateFormat(event.releaseDate, "dd"))
+    .selectByValue("[name='fut_year']", dateFormat(event.releaseDate, "yyyy"))
+    .selectByValue("[name='fut_hour']", dateFormat(event.releaseDate, "HH"))
+    .selectByVisibleText("[name='fut_minute']", dateFormat(event.releaseDate, "MM"))
 
-    // Manyvids Session Details
-    .getAttribute('html', 'data-session-details').then(function(val) {
-      console.log('Session Details: ' + JSON.stringify(val));
-      data.session = JSON.parse(val);
-      data.remoteStudioId = data.session.user_id;
-    })
-
-    // ManyVids Video ID
-    .getAttribute('body', 'data-video-id').then(function(val) {
-      console.log('Video ID: ' + JSON.stringify(val));
-      data.video.id = val;
-      data.remoteId = data.video.id;
-    })
-
-    // AWS eTag
-    .getAttribute('body', 'data-etag').then(function(val) {
-      console.log('eTag: ' + JSON.stringify(val));
-      data.video.etag = val;
-    })
-
-    // Trailer Filename
-    .getAttribute('body', 'data-filename').then(function(val) {
-      console.log('Filename: ' + JSON.stringify(val));
-      data.video.filename = val;
-    })
-
-    // Price
-    .getValue('[name="video_cost"]').then(function(val) {
-      console.log('Price is: ' + JSON.stringify(val*1));
-      data.price = val*1;
-    })
-
-    // Video Title
-    .getValue('[name="video_title"]').then(function(val) {
-      console.log('Title is: ' + JSON.stringify(val));
-      data.name = val;
-    })
-
-    // Description
-    .getText('[name="video_description"]').then(function(val) {
-      console.log('Title is: ' + JSON.stringify(val));
-      data.description = val;
-    })
-
-    // Categories/"Tags"
-    .getAttribute('//*[@id="videoSettings"]/div[1]/div/ul/li[1]/input', 'value').then(function(val) {
-      if(val) { data.categories.push(val); }
-    })
-    .getAttribute('//*[@id="videoSettings"]/div[1]/div/ul/li[2]/input', 'value').then(function(val) {
-      if(val) { data.categories.push(val); }
-    })
-    .getAttribute('//*[@id="videoSettings"]/div[1]/div/ul/li[3]/input', 'value').then(function(val) {
-      if(val) { data.categories.push(val); }
-    })
-    .getAttribute('//*[@id="videoSettings"]/div[1]/div/ul/li[4]/input', 'value').then(function(val) {
-      if(val) { data.categories.push(val); }
-    })
-    .getAttribute('//*[@id="videoSettings"]/div[1]/div/ul/li[5]/input', 'value').then(function(val) {
-      if(val) { data.categories.push(val); }
-    })
-
-    // Video Length
-    .getAttribute('.js-video-length', 'data-video-length').then(function(val) {
-      console.log(val);
-      if(val * 1) {
-        data.lengthSeconds = val * 1;
-      } else {
-        data.length = val;
-      }
-    })
-
-    // Intensity
-    .execute(function(obj) {
-        obj = jQuery('#intensity > option:selected')[0].value;
-        return obj;
-    }, data).then(function(obj) {
-        console.log("Intensity", obj.value);
-        data.intensity = obj.value;
-    })
-
-    /** Local Error Callback
-     * @todo Break on various errors
-     * @return error message, {}
-     */
-    .catch(function(err) {
-      console.log('Local catch called');
-      return callback("Error fetching the vid details.", {});
-    })
-
-    // Sale/Discount %
-    .execute(function(obj) {
-        obj = jQuery('#sale > option:selected')[0].value;
-        return obj;
-    }, data).then(function(obj) {
-        var discount = obj.value;
-        console.log(`Discount ${discount}`);
-        data.discount = discount;
-        if (discount) {
-          data.salePrice = data.price - ( ( discount / 100 ) * data.price );
-        }
-    })
-
-    // Trailer URL
-    .getAttribute('//*[@id="rmpPlayer"]', 'data-video-filepath').then(function(val) {
-      data.poster = val;
-    })
-
-    // Poster Img URL
-    .getAttribute('//*[@id="rmpPlayer"]', 'data-video-screenshot').then(function(val) {
-      data.trailer = val;
-    })
-
-    /** CreatedAt Timestamp
-     * Epoch milliseconds to UTC string
-     */
-    .getAttribute('//*[@id="rmpPlayer"]', 'data-video-filepath').then(function(val) {
-      var epochMs = 0;
-      var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
-      // var val = "https://dntgjk0do84uu.cloudfront.net/364438/e1a1813a9e1abe9866c0b74118081a58/preview/1520188436784.mp4_480_1520188447.m3u8"; // test string
-      var regex = /https:\/\/.*\/.*\/(\d{13}).mp4_\d{3,4}_\d{10}.m3u8/; // Regex search string
-      var regex2 = /https:\/\/s3.amazonaws.com\/manyvids-data\/php_uploads\/preview_videos\/.*\/(\d{13})_preview.mp4/; // Regex search string
-
-      if (regex.test(val)) {
-        var match = regex.exec(val);
-        epochMs = match[1];
-      } else if (regex2.test(val)) {
-        var match = regex2.exec(val);
-        epochMs = match[1];
-      }
-
-      // console.log(match, epochMs);
-      // console.log("Converting to UTC String");
-      d.setUTCMilliseconds(epochMs); // set the dat obj to the video creatiume time in epoch ms
-      data.createdAt = d.toISOString(); // Convert to UTC timestamp
-    })
+    // .setValue('[name="ContainsNudity"]', event.containsNudity || 1)
+    // .setValue('[name="members"]', event.members || 0)
+    // .setValue('[name="ClipActive"]', event.clipActive || 1)
+    // .setValue('[name="use_future"]', event.useFuture || 0)
 
     // Success Callback
     .next(function() {
-      params.client.end();
+      // params.client.end();
       console.log('Done!');
-      console.log(JSON.stringify(data, null, 2));
-      return callback(null, data);
+      console.log(JSON.stringify(event, null, 2));
+      return callback(null, event);
     })
 
     // Global Error Callback
-    .catch((e) => console.log(e));
+    .catch((e) => {
+      params.client.end();
+      console.log(e);
+      return callback(null, event);
+    });
 };
 
 function uploadVids(file, params, callback) {
@@ -455,5 +384,6 @@ function uploadVids(file, params, callback) {
 
 module.exports = {
   login: auth,
-  getClip: getClip
+  getClip: getClip,
+  postClip: postClip
 };
