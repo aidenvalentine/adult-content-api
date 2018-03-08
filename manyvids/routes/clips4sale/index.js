@@ -1,4 +1,5 @@
 var clips4sale = require('express').Router({ mergeParams: true });
+var sales = require('./sales')
 var bodyParser = require('body-parser')
 var jsonParser = bodyParser.json()
 
@@ -83,5 +84,11 @@ clips4sale.delete('/clips/:id', function (req, res) {
   console.log(`DELETE /clips/${id} - Mock Endpoint`); // Mock
   res.json({});
 });
+
+/**
+ * Clips4Sale Router
+ * @type {String}
+ */
+clips4sale.use('/sales', sales);
 
 module.exports = clips4sale;
