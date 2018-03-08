@@ -26,8 +26,8 @@ function getReport(params, callback) {
   this.e_year = params.e_year;
   this.e_month = params.e_month;
   this.e_day = params.e_day;
-  this.report_type = params.report_type || "Detail1"; // Detail1,
-  this.stores = params.stores || "all";
+  this.report_type = params.report_type || "Detail1"; // Detail1, sum, categoryGroupingReport, ClipsNeverSoldReport, tributes, refundsChargebacks
+  this.stores = params.stores || "all"; // all, clip, video, image
   this.action = params.action || "reports";
   const reqData = this;
   c4s.login(credentials, wdioParams, function(err, data) {
