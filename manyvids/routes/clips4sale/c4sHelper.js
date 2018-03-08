@@ -1,8 +1,20 @@
 const dateutil = require('dateutil');
+const dateFormat = require('dateformat');
+var HashMap = require('hashmap');
 
 require('dotenv').config({
   path: './config/79949.env'
 });
+
+// Create accociative array for the clip title suffix
+var map = new HashMap();
+map
+  .set("HD_MP4", " - Full HD 1080p MP4")
+  .set("SD_MP4"," - SD 480p MP4")
+  .set("HD_WMV"," - Full HD 1080p WMV")
+  .set("SD_WMV"," - SD 480p WMV")
+  .set("MOBILE_HD"," - Mobile hd 720p MP4")
+  .set("MOBILE_LOW"," - Mobile Low MP4");
 
 /**
  * Login to Clips4Sale.
