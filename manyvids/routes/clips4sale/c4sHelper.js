@@ -274,11 +274,11 @@ function getClip(id, params, callback) {
 };
 
 /**
- * Put Vid - Details
- * @param  {Integer}  event    A ManyVids Video ID
+ * Create New Clip
+ * @param  {Integer}  event    The clip data
  * @param  {Object}   params   client, cookie
  * @param  {Function} callback [description]
- * @return {Object}            An object containing details about a ManyVids video.
+ * @return {Object}            [description]
  */
 function postClip(event, params, callback) {
   var description = event.description;
