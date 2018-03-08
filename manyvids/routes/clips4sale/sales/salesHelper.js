@@ -51,7 +51,7 @@ function getReport(params, callback) {
       }, data, reqData).then(function(output) {
           console.log(output);
           reponse.data = output.value;
-          callback(null, output);
+          callback(null, output.value);
       })
       // Success Callback
       .next(function() {
