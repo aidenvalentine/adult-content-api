@@ -1,5 +1,5 @@
 require('dotenv').config({
-  path: '.env.fififoxx'
+  path: '.env.manyvids'
 });
 const mv = require('./manyvids.js');
 const webdriverio = require('webdriverio');
