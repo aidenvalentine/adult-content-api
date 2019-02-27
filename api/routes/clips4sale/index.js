@@ -18,14 +18,14 @@ clips4sale.get('/', (req, res) => {
 });
 
 // route to trigger the capture
-clips4sale.get('/clips', function (req, res) {
+clips4sale.get('/clip', function (req, res) {
   var id = req.params.id;
-  console.log(`GET /clips - Mock Endpoint`); // Mock
+  console.log(`GET /clip - Mock Endpoint`); // Mock
   res.json({});
 });
 
 // route to trigger the capture
-clips4sale.post('/clips', jsonParser, function (req, res) {
+clips4sale.post('/clip', jsonParser, function (req, res) {
   var event = req.body;
   console.log(`POST /clips - Mock Endpoint`); // Mock
   console.log(JSON.stringify(event, null, 2)); // Mock
@@ -47,7 +47,7 @@ clips4sale.post('/clips', jsonParser, function (req, res) {
 });
 
 // route to trigger the capture
-clips4sale.get('/clips/:id', function (req, res) {
+clips4sale.get('/clip/:id', function (req, res) {
   var id = req.params.id;
   console.log(`Requesting Clip ID: ${id}`);
   // res.json({id});
@@ -72,16 +72,16 @@ clips4sale.get('/clips/:id', function (req, res) {
 });
 
 // route to trigger the capture
-clips4sale.put('/clips/:id', function (req, res) {
+clips4sale.put('/clip/:id', function (req, res) {
   var id = req.params.id;
-  console.log(`PUT /clips/${id} - Mock Endpoint`); // Mock
+  console.log(`PUT /clip/${id} - Mock Endpoint`); // Mock
   res.json({});
 });
 
 // route to trigger the capture
-clips4sale.delete('/clips/:id', function (req, res) {
+clips4sale.delete('/clip/:id', function (req, res) {
   var id = req.params.id;
-  console.log(`DELETE /clips/${id} - Mock Endpoint`); // Mock
+  console.log(`DELETE /clip/${id} - Mock Endpoint`); // Mock
   res.json({});
 });
 

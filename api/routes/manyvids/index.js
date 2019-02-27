@@ -7,7 +7,7 @@ const mv = require('../../manyvids.js');
 const client = require('../../webdriverio/client.js').client;
 
 // Test cookie - Pre-authenticated
-const cookie =  require('cookie.json');
+const cookie =  require('./cookie.json');
 
 // Test Route
 manyvids.get('/', (req, res) => {

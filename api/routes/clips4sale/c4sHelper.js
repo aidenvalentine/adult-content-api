@@ -3,7 +3,7 @@ const dateFormat = require('dateformat');
 var HashMap = require('hashmap');
 
 require('dotenv').config({
-  path: './config/79949.env'
+  path: './config/clips4sale.env'
 });
 
 // Create accociative array for the clip title suffix
