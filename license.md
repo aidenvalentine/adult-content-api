@@ -6,9 +6,12 @@ Permission to copy, modify, and distribute this software and its documentation, 
 The full text of this NOTICE in a location viewable to users of the redistributed or derivative work.
 Any pre-existing intellectual property disclaimers, notices, or terms and conditions. If none exist, the W3C Software Short Notice should be included (hypertext is preferred, text is permitted) within the body of any redistributed or derivative code.
 Notice of any changes or modifications to the files, including the date changes were made. (We recommend you provide URIs to the location from which the code is derived.)
-### For Private Use Only. You are allowed to use this for your own stores but cannot use the __Adult Clip Store API__ in your own commercial/for-profit software, application, website, Software-as-a-Service Offering, or Platform-as-a-Service Offering. Please contact aiden@xxxmultimedia.com for information on purchasing a commercial license for this software.
-### Severability. If any provisions of this agreement is invalid or unenforceable, the remaining provisions shall continue to be valid and enforceable.
-### Applicable Law. This agreement shall be governed exclusively by the laws of Florida, without regard to conflict of law provisions.
+### For Private Use Only.
+You are allowed to use this for your own stores but cannot use the __Adult Clip Store API__ in your own commercial/for-profit software, application, website, Software-as-a-Service Offering, or Platform-as-a-Service Offering. Please contact aiden@xxxmultimedia.com for information on purchasing a commercial license for this software.
+### Severability.
+If any provisions of this agreement is invalid or unenforceable, the remaining provisions shall continue to be valid and enforceable.
+### Applicable Law.
+This agreement shall be governed exclusively by the laws of Florida, without regard to conflict of law provisions.
 
 ## Disclaimers
 THIS SOFTWARE AND DOCUMENTATION IS PROVIDED "AS IS," AND COPYRIGHT HOLDERS MAKE NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF THE SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.
