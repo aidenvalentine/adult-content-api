@@ -1,5 +1,5 @@
 {
-  "name": "adult-clip-stores-api",
+  "name": "adult-clip-store-api",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -7,8 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Aiden Valentine <aiden@xxxmultimedia.com>",
   "dependencies": {
     "body-parser": "^1.18.2",
     "dateformat": "^3.0.3",
