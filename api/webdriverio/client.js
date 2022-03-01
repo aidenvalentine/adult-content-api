@@ -1,8 +1,12 @@
+const webdriverio = require('webdriverio');
+const path = require('path');
+
 /**
  * Initialized a new WebDriverIO Client.
  */
-const webdriverio = require('webdriverio');
-const config = require('./config.js').config;
+const config = require(path.join(__dirname, 'config.js')).config;
 var client = webdriverio.remote(config);
 
-module.exports = { client };
+module.exports = {
+  client
+};
